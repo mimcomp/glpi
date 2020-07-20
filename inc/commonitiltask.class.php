@@ -229,6 +229,11 @@ abstract class CommonITILTask  extends CommonDBTM {
 
    function prepareInputForUpdate($input) {
 
+      if (empty($input['content'])) {
+         Session::addMessageAfterRedirect(__("You can't add a task without description"),
+                                          false, ERROR);
+         return false;
+      }
       Toolbox::manageBeginAndEndPlanDates($input['plan']);
 
       if (isset($input['_planningrecall'])) {
@@ -380,7 +385,14 @@ abstract class CommonITILTask  extends CommonDBTM {
 
 
    function prepareInputForAdd($input) {
+
       $itemtype = $this->getItilObjectItemType();
+
+      if (empty($input['content'])) {
+         Session::addMessageAfterRedirect(__("You can't add a task without description"),
+                                          false, ERROR);
+         return false;
+      }
 
       Toolbox::manageBeginAndEndPlanDates($input['plan']);
 
