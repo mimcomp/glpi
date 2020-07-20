@@ -239,6 +239,12 @@ abstract class CommonITILTask extends CommonDBTM implements CalDAVCompatibleItem
 
    function prepareInputForUpdate($input) {
 
+      if (empty($input['content'])) {
+         Session::addMessageAfterRedirect(__("You can't add a task without description"),
+                                          false, ERROR);
+         return false;
+      }
+
       Toolbox::manageBeginAndEndPlanDates($input['plan']);
 
       if (isset($input['_planningrecall'])) {
@@ -395,6 +401,13 @@ abstract class CommonITILTask extends CommonDBTM implements CalDAVCompatibleItem
 
 
    function prepareInputForAdd($input) {
+
+      if (empty($input['content'])) {
+         Session::addMessageAfterRedirect(__("You can't add a task without description"),
+                                          false, ERROR);
+         return false;
+      }
+
       $itemtype = $this->getItilObjectItemType();
 
       if (!isset($input['uuid'])) {
